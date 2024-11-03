@@ -25,8 +25,8 @@
             var _selector = document.querySelector('input[name=myCheckbox]');
                _selector.addEventListener('change', function(event) {
                    var message = (_selector.checked) ? "Toggle Switch is on" : "Toggle Switch is off";
-                   if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.toggleMessageHandler) {
-                       window.webkit.messageHandlers.toggleMessageHandler.postMessage({
+                   if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.paymentPlansMessageHandler) {
+                       window.webkit.messageHandlers.paymentPlansMessageHandler.postMessage({
                            "message": message
                        });
                    }

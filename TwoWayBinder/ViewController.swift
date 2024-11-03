@@ -9,7 +9,7 @@
 import UIKit
 import WebKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, WKScriptMessageHandler {
     
     private lazy var webView: WKWebView = {
         let webView = WKWebView()
@@ -29,15 +29,20 @@ class ViewController: UIViewController {
         ])
         
         let contentController = self.webView.configuration.userContentController
-        contentController.add(self, name: "toggleMessageHandler")
+        contentController.add(self, name: "paymentPlansMessageHandler")
+        
+        let exampleJS = """
+        console.log('Test - example of injection of JS from WKWebView
+        """
+
+        let script = WKUserScript(source: exampleJS, injectionTime: .atDocumentEnd, forMainFrameOnly: false)
+        contentController.addUserScript(script)
         
         if let url = Bundle.main.url(forResource: "index", withExtension: "html") {
             webView.loadFileURL(url, allowingReadAccessTo: url.deletingLastPathComponent())
         }
     }
-}
-
-extension ViewController: WKScriptMessageHandler {
+    
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
         guard let dict = message.body as? [String: Any] else { return }
         
